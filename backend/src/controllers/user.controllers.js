@@ -1,5 +1,5 @@
 import { User } from "../models/user.models.js";
-import { userSchema } from "../types.js";
+import { updateUserSchema, userSchema } from "../types.js";
 import jwt from "jsonwebtoken";
 
 export const userSignup = async (req, res) => {
@@ -82,6 +82,47 @@ export const userSignin = async (req, res) => {
     token,
     userExists,
   });
+};
+
+export const updateUser = async (req, res) => {
+  const { success } = updateUserSchema.safeParse(req.body);
+  if (!success) {
+    res.status(411).json({
+      success: false,
+      message: "Error while updating information",
+    });
+  }
+
+  await User.findByIdAndUpdate(req.user._id, req.body);
+
+  res.status(200).json({
+    success: true,
+    message: "Updated successfully",
+  });
+};
+
+export const getUser = async (req, res) => {
+  const filter = req.query.filter || "";
+  const users = await User.find({
+    $or: [
+      {
+        firstName: {
+          $regex: filter,
+        },
+      },
+      {
+        lastName: {
+          $regex: filter,
+        },
+      },
+    ],
+  });
+  
+  res.status(200).json({
+   success: true,
+   message: "User fetch successfully",
+   users
+  })
 };
 
 export const userBalance = async (req, res) => {
