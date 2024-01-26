@@ -1,3 +1,4 @@
+import { Account } from "../models/account.models.js";
 import { User } from "../models/user.models.js";
 import { updateUserSchema, userSchema } from "../types.js";
 import jwt from "jsonwebtoken";
@@ -31,6 +32,11 @@ export const userSignup = async (req, res) => {
     },
     process.env.ACCESS_TOKEN_SECRET
   );
+
+  const accountInfo = await Account.create({
+   userId,
+   balance: 1 + Math.random()*10000
+  })
 
   return res.status(200).json({
     success: true,
