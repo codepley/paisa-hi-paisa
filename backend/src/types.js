@@ -12,3 +12,8 @@ export const updateUserSchema = z.object({
    lastName: z.string().optional(),
    password: z.string().optional()
 })
+
+export const transferMoneySchema = z.object({
+   to: z.string(),
+   amount: z.number()
+})
