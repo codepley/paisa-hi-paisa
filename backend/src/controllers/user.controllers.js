@@ -131,6 +131,13 @@ export const getUser = async (req, res) => {
   })
 };
 
+export const getLoggedInUser = async (req, res) => {
+  res.status(200).json({
+    success: true, 
+    user: req.user
+  })
+}
+
 export const userBalance = async (req, res) => {
   res.json({ balance: "10000", user: req.user });
 };
