@@ -3,19 +3,20 @@ import Dashboard from "./components/Dashboard"
 import SignUp from "./components/SignUp"
 import SignIn from "./components/SignIn"
 import SendMoney from "./components/SendMoney"
-import { useEffect, useState } from "react"
-import axios from 'axios'
+import { useEffect } from "react"
 
 function App() {
 
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
   async function getUser() {
     try {
-      const response = await axios.get("http://localhost:3000/api/v1/user/get-logged-user")
-      console.log(response)
+      const response = await fetch("http://localhost:3000/api/v1/user/get-logged-user")
+      const data = await response.json();
+      console.log(data)
     } catch (error) {
       console.log("error")
+      console.log(error)
     }
   }
 

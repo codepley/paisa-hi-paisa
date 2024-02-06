@@ -4,10 +4,11 @@ import { updateUserSchema, userSchema } from "../types.js";
 import jwt from "jsonwebtoken";
 
 export const userSignup = async (req, res) => {
-  const userRecievedData = req.body;
+  const userRecievedData = req.body.data;
+  console.log(userRecievedData)
   const parsed = userSchema.safeParse(userRecievedData);
   if (!parsed) {
-    res.status(400).json({
+    return res.status(400).json({
       success: "false",
       message: "Invalid Inputs",
     });
@@ -16,7 +17,7 @@ export const userSignup = async (req, res) => {
   const userExist = await User.findOne({ email: userRecievedData.email });
 
   if (userExist) {
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: "User already registered, please sign in",
     });

@@ -7,7 +7,7 @@ export const verifyUser = async function(req, res, next) {
 
       // console.log(token)
       if(!token) {
-         res.status(401).json({
+         return res.status(401).json({
             success: false,
             message: "Unauthorized request"
          })
