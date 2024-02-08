@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import axios from "axios";
@@ -30,7 +31,7 @@ const SignUp = () => {
       console.log(error);
     }
   };
-
+ 
   return (
     <div className="flex flex-col h-screen w-screen justify-center items-center gap-2">
       <h2>Sign Up</h2>

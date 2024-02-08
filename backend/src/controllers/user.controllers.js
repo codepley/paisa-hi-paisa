@@ -48,7 +48,7 @@ export const userSignup = async (req, res) => {
 };
 
 export const userSignin = async (req, res) => {
-  const userData = req.body;
+  const userData = req.body.data;
   const parsedEmail = userSchema.shape.email.safeParse(userData.email);
   const parsedPassword = userSchema.shape.password.safeParse(userData.password);
 

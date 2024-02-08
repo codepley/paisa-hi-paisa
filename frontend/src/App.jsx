@@ -1,39 +1,21 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Dashboard from "./components/Dashboard"
-import SignUp from "./components/SignUp"
-import SignIn from "./components/SignIn"
-import SendMoney from "./components/SendMoney"
-import { useEffect } from "react"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import SignUp from "./components/SignUp";
+import SignIn from "./components/SignIn";
+import Dashboard from "./components/Dashboard";
+import SendMoney from "./components/SendMoney";
 
-function App() {
-
-  // const [user, setUser] = useState(null);
-
-  async function getUser() {
-    try {
-      const response = await fetch("http://localhost:3000/api/v1/user/get-logged-user")
-      const data = await response.json();
-      console.log(data)
-    } catch (error) {
-      console.log("error")
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getUser()
-  }, [])
-
+export default function App() {
   return (
-    <BrowserRouter>
+    <>
+       <BrowserRouter>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/send" element={<SendMoney />} />
+          <Route path="*" element={<Dashboard />} />
         </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </>
   )
 }
-
-export default App

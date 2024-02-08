@@ -17,9 +17,9 @@ export const transferMoney = async function (req, res) {
    const session = await mongoose.startSession()
    session.startTransaction();
    const transferDetail = transferMoneySchema.safeParse(req.body);
-   
+   console.log(transferDetail)
    if(!transferDetail.success){
-      res.status(400).json({
+      return res.status(400).json({
          success: false,
          message: "Invalid credentials"
       })
@@ -34,8 +34,8 @@ export const transferMoney = async function (req, res) {
          message: "Insufficient balance"
       })
    }
-   const reciever = await User.findOne({email: transferDetail.data.to}).select("-password").session(session)
-
+   const reciever = await Account.findOne({userId: transferDetail.data.to}).select("-password").session(session)
+   console.log(reciever)
    if(!reciever){
       await session.abortTransaction()
       return res.status(400).json({
@@ -43,8 +43,15 @@ export const transferMoney = async function (req, res) {
          message: "User does not exists"
       })
    }
-   const toAccount = await Account.findOne({userId: reciever._id}).session(session)
-
+   // const toAccount = await Account.findOne({userId: reciever._id}).session(session)
+   // console.log(account._id, reciever._id, reciever.userId)
+   if(account._id.toString() === reciever._id.toString()){
+      await session.abortTransaction()
+      return res.status(400).json({
+         success: false,
+         message: "You cannot send money to your own account"
+      })
+   }
    // perform transaction
    await Account.updateOne({userId: req.user._id}, {$inc: {balance: -transferDetail.data.amount}}).session(session)
    await Account.updateOne({userId: reciever._id}, {$inc: {balance: transferDetail.data.amount}}).session(session)
